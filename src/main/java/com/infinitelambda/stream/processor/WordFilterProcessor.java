@@ -10,8 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 @Component
-public class WordCountProcessor {
-
+public class WordFilterProcessor {
     private static final Serde<String> STRING_SERDE = Serdes.String();
 
     @Autowired
@@ -22,9 +21,10 @@ public class WordCountProcessor {
         KTable<String, Long> wordCounts = messageStream
                 .mapValues((ValueMapper<String, String>) String::toLowerCase)
                 .flatMapValues(value -> Arrays.asList(value.split("\\W+")))
+                .filter((key, word) -> word.length() >= 5)
                 .groupBy((key, word) -> word, Grouped.with(STRING_SERDE, STRING_SERDE))
-                .count(Materialized.as("counts"));
+                .count(Materialized.as("counts-filter"));
 
-        wordCounts.toStream().to("output-topic");
+        wordCounts.toStream().to("output-topic-filter");
     }
 }
