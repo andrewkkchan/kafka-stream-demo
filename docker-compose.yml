@@ -11,7 +11,7 @@ services:
       ZOO_PORT: 2181
 
   kafka1:
-    image: wurstmeister/kafka:2.12-2.4.1
+    image: wurstmeister/kafka:2.13-2.8.1
     hostname: kafka1
     ports:
       - "9091:9091"
@@ -26,7 +26,7 @@ services:
       KAFKA_RESTART_DELAY: "5"
       ZOOKEEPER_AUTOPURGE_PURGE_INTERVAL: "0"
       KAFKA_HEAP_OPTS: -Xmx1G -Xms1G
-      KAFKA_LOG_RETENTION_HOURS: 168
+      KAFKA_LOG_RETENTION_HOURS: -1
       KAFKA_BROKER_ID: 1
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka1 -Dcom.sun.management.jmxremote.rmi.port=1101"
@@ -36,7 +36,7 @@ services:
     depends_on:
       - zookeeper
   kafka2:
-    image: wurstmeister/kafka:2.12-2.4.1
+    image: wurstmeister/kafka:2.13-2.8.1
     hostname: kafka2
     ports:
       - "9092:9092"
@@ -61,7 +61,7 @@ services:
     depends_on:
       - zookeeper
   kafka3:
-    image: wurstmeister/kafka:2.12-2.4.1
+    image: wurstmeister/kafka:2.13-2.8.1
     hostname: kafka3
     ports:
       - "9093:9093"
